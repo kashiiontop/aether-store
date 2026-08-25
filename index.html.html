@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether Luxe | Next-Gen Commerce</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        #canvas-container {
+            width: 100%;
+            height: 450px;
+        }
+    </style>
+</head>
+<body class="selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header / Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#0b0f19]/80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="text-xl font-bold tracking-wider text-white">AETHER<span class="text-indigo-400">.</span></div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+                <a href="#features" class="hover:text-indigo-400 transition-colors">Features</a>
+                <a href="#specifications" class="hover:text-indigo-400 transition-colors">Specs</a>
+                <a href="#pricing" class="hover:text-indigo-400 transition-colors">Pricing</a>
+            </nav>
+            <button onclick="openCheckout('Aether Luxe Edition', 299)" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg shadow-indigo-600/30">
+                Pre-Order Now
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section with 3D Canvas -->
+    <section class="pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Text Content -->
+            <div class="space-y-6">
+                <span class="inline-block bg-indigo-500/10 text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-500/20">
+                    Next Generation Release
+                </span>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                    Engineering <br>Beyond Limits.
+                </h1>
+                <p class="text-gray-400 text-lg max-w-lg">
+                    Experience unmatched design and absolute performance. Interact with our flagship product in real-time 3D space below.
+                </p>
+                <div class="flex items-center space-x-4 pt-2">
+                    <button onclick="openCheckout('Aether Luxe Edition', 299)" class="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-3.5 rounded-full font-medium transition-all shadow-lg shadow-indigo-600/30">
+                        Buy for $299
+                    </button>
+                    <a href="#features" class="text-gray-300 hover:text-white px-6 py-3.5 font-medium transition-colors">
+                        Learn more &rarr;
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3D Interactive Viewer -->
+            <div class="relative bg-gradient-to-b from-gray-900 to-[#0b0f19] rounded-3xl border border-gray-800 p-4 shadow-2xl">
+                <div class="absolute top-4 left-4 z-10 bg-gray-900/80 backdrop-blur border border-gray-700/50 px-3 py-1 rounded-full text-xs text-gray-400">
+                    Interactive 3D View (Drag to rotate)
+                </div>
+                <div id="canvas-container"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Checkout Modal (Hidden by Default) -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+        <div class="bg-gray-900 border border-gray-800 w-full max-w-md p-8 rounded-3xl shadow-2xl relative space-y-6">
+            <!-- Close Button -->
+            <button onclick="closeCheckout()" class="absolute top-5 right-5 text-gray-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div>
+                <h3 class="text-2xl font-bold text-white">Complete Your Order</h3>
+                <p class="text-sm text-gray-400">Secure checkout powered by Aether Pay</p>
+            </div>
+
+            <!-- Order Summary Box -->
+            <div class="bg-gray-800/50 rounded-2xl p-4 border border-gray-700/50 space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span id="modal-product-name" class="text-gray-300 font-medium">Product</span>
+                    <span id="modal-product-price" class="text-white font-semibold">$299.00</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-400 border-t border-gray-700/40 pt-2">
+                    <span>Shipping</span>
+                    <span class="text-green-400 font-medium">FREE</span>
+                </div>
+            </div>
+
+            <!-- Simulated Payment Form -->
+            <form onsubmit="handleCheckoutSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Full Name</label>
+                    <input type="text" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="Alex Morgan">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Email Address</label>
+                    <input type="email" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="alex@example.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Card Details</label>
+                    <input type="text" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="4242 •••• •••• 4242">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-medium transition-all shadow-lg shadow-indigo-600/30">
+                    Pay $299.00 Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Notification State (Hidden by default) -->
+    <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+        <div class="bg-gray-900 border border-gray-800 w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center space-y-4">
+            <div class="w-16 h-16 bg-green-500/10 text-green-400 rounded-full flex items-center justify-center mx-auto border border-green-500/20 text-2xl">✓</div>
+            <h3 class="text-xl font-bold text-white">Order Successful!</h3>
+            <p class="text-sm text-gray-400">Thank you for your purchase. We have sent your tracking link via email.</p>
+            <button onclick="closeSuccess()" class="w-full bg-gray-800 hover:bg-gray-700 text-white py-2.5 rounded-xl font-medium transition-all">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 py-12 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 Aether Inc. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Modal Interactions & Three.js -->
+    <script>
+        // Modal Control Functions
+        function openCheckout(productName, price) {
+            document.getElementById('modal-product-name').innerText = productName;
+            document.getElementById('modal-product-price').innerText = '$' + price + '.00';
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            closeCheckout();
+            document.getElementById('success-modal').classList.remove('hidden');
+        }
+
+        function closeSuccess() {
+            document.getElementById('success-modal').classList.add('hidden');
+        }
+
+        // Setup Three.js Scene, Camera, and Renderer
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Add Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0x6366f1, 3);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        const backLight = new THREE.PointLight(0x3b82f6, 2);
+        backLight.position.set(-5, -5, -5);
+        scene.add(backLight);
+
+        // Create 3D Product Mesh
+        const geometry = new THREE.BoxGeometry(2, 2, 2, 16, 16, 16);
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x4f46e5,
+            metalness: 0.8,
+            roughness: 0.2,
+        });
+        const productMesh = new THREE.Mesh(geometry, material);
+        scene.add(productMesh);
+
+        // Mouse Drag Interaction Variables
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - previousMousePosition.x;
+            const deltaY = e.clientY - previousMousePosition.y;
+
+            productMesh.rotation.y += deltaX * 0.005;
+            productMesh.rotation.x += deltaY * 0.005;
+
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Touch support for mobile devices
+        container.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.touches[0].clientX - previousMousePosition.x;
+            const deltaY = e.touches[0].clientY - previousMousePosition.y;
+
+            productMesh.rotation.y += deltaX * 0.005;
+            productMesh.rotation.x += deltaY * 0.005;
+
+            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        });
+
+        window.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!isDragging) {
+                productMesh.rotation.y += 0.003;
+                productMesh.rotation.x += 0.001;
+            }
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Responsive Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    </script>
+</body>
+</html>
